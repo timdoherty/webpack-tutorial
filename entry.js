@@ -1,3 +1,3 @@
 require("./style.css");
-document.write('<button id="main">Click Me!</button><div id="split-content"></div>');
+document.write('<div>Content</div><div id="split-content">Other Content</div>');
 require("./content.js");

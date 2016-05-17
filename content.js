@@ -1,5 +1,5 @@
-document.querySelector('#main').addEventListener('click', function (e) {
-  require.ensure(['./split-content'], function (require) {
-    require('./split-content');
-  });
-});
+if(module.hot) {
+  module.hot.accept();
+}
+
+require('./split-content');
