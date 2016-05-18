@@ -7,6 +7,12 @@ The demo will walk through webpack from the bare-bones basics through to a simpl
 * Node.js installed (preferably 5.x + npm 3.x)
 * Using the CLI is easier if "node_modules/.bin" is in your path
 
+To see each step in action:
+
+`$ git checkout step<step #>`
+
+`$ npm install`
+
 ### Step 1 - The Basics
 * Entry point only, no dependencies, no config, CLI bundling
 * $ webpack /.entry bundle.js
@@ -21,14 +27,14 @@ The demo will walk through webpack from the bare-bones basics through to a simpl
 * CSS loading: $ npm install --save-dev style-loader css-loader
 * Add styles.css
 * Import styles.css from entry.js using inline syntax
-** require("style!css!./style.css");
+ * require("style!css!./style.css");
 * $ webpack /.entry bundle.js
 * Open index.html in a browser
 
 ### Step 4 - Loader Module Binding
 * Use module binding for css-loader
 * Import styles.css from entry.js without inline syntax
-** require("./style.css");
+ * require("./style.css");
 * $ webpack ./entry bundle.js —module-bind ‘css=style!css'
 * Open index.html in a browser
 
