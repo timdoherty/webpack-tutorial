@@ -1,12 +1,14 @@
-window.addEventListener("hashchange", function() {
-  var routes = {
-    '#main': function () {
-      require.ensure(['./split-content'], function (require) {
-        var lazyModule = require('./split-content');
+'use strict';
+
+window.addEventListener('hashchange', () => {
+  const routes = {
+    '#main'() {
+      require.ensure(['./split-content'], (require) => {
+        const lazyModule = require('./split-content');
       });
     },
-    default: function () {}
+    default: () => {}
   };
-  var action = routes[window.location.hash] || routes.default;
+  const action = routes[window.location.hash] || routes.default;
   action();
 }, false);

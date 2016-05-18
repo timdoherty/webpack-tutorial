@@ -18,7 +18,15 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: "style!css" },
-            { test: /\.png$/, loader: "url" }
+            { test: /\.png$/, loader: "url" },
+            {
+              test: /\.js$/,
+              loader: 'babel',
+              exclude: /(node_modules)/,
+              query: {
+                presets: ['es2015']
+              }
+            },
         ]
     }
 };
