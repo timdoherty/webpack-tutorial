@@ -1,6 +1,6 @@
-window.addEventListener("hashchange", function() {
+window.addEventListener('hashchange', function() {
   var routes = {
-    '#main': function () {
+    '#about': function () {
       require.ensure(['./split-content'], function (require) {
         var lazyModule = require('./split-content');
       });
