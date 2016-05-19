@@ -1,9 +1,3 @@
-#split-content {
-  width: 800px;
-  margin: auto;
-  text-align: center;
-  font-family: tahoma;
-}
 .what-is {
   background-image: url('./what-is-webpack.png');
   width: 700px;

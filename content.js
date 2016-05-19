@@ -29,7 +29,11 @@ export default class Content extends Component {
 
   render() {
     return (
-      <this.state.view />
+      <div id="main">
+        <a href="#">home</a> : <a href="#about">about</a>
+        <hr />
+        <this.state.view />
+      </div>
     );
   }
 }

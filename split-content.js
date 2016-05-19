@@ -6,9 +6,7 @@ import './split-content.css';
 export default class SplitContent extends Component {
   render() {
     return (
-      <div id="split-content">
-        <a href="#">home</a> : <a href="#about">about</a>
-        <hr />
+      <div>
         <h1>What is Webpack?</h1>
         <div className="what-is" />
         <div className="ipsum">

@@ -6,9 +6,7 @@ import './default-content.css';
 export default class DefaultContent extends Component {
   render() {
     return (
-      <div id="default-content">
-        <a href="#">home</a> : <a href="#about">about</a>
-        <hr />
+      <div>
         <div className="logo"></div>
         <h1>Webpack: Anatomy of a Module Bundler</h1>
         <div className="ipsum">

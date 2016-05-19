@@ -1,6 +1,14 @@
 body {
-    /*background-color: grey;*/
+  background: white;
 }
+
+#main {
+  width: 800px;
+  margin: auto;
+  text-align: center;
+  font-family: tahoma;
+}
+
 .ipsum {
   text-align: left;
 }
