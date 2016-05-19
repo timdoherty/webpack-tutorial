@@ -8,12 +8,13 @@ module.exports = {
     },
     devtool: '#source-map',
     plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-         warnings: false
-        },
-        sourceMap: true
-      })
+      // new webpack.optimize.UglifyJsPlugin({
+      //   compress: {
+      //    warnings: false
+      //   },
+      //   sourceMap: true
+      // }),
+      new webpack.HotModuleReplacementPlugin()
     ],
     module: {
         loaders: [
@@ -21,11 +22,8 @@ module.exports = {
             { test: /\.png$/, loader: "url" },
             {
               test: /\.js$/,
-              loader: 'babel',
-              exclude: /(node_modules)/,
-              query: {
-                presets: ['es2015']
-              }
+              loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
+              exclude: /(node_modules)/
             },
         ]
     }
