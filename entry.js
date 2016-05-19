@@ -1,2 +1,2 @@
-require("./style.css");
-require("./content.js");
+require('./style.css');
+require('./content.js');

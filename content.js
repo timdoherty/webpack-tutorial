@@ -1,4 +1,4 @@
-window.addEventListener("hashchange", function() {
+window.addEventListener('hashchange', function() {
   var routes = {
     '#about': function () {
       require.ensure(['./split-content'], function (require) {
