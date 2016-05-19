@@ -2,7 +2,7 @@
 
 window.addEventListener('hashchange', () => {
   const routes = {
-    '#main'() {
+    '#about'() {
       require.ensure(['./split-content'], (require) => {
         const lazyModule = require('./split-content');
       });
