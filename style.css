@@ -1,3 +1,17 @@
 body {
-    background-image: url('./webpack-logo.png');
+  background: white;
+}
+
+#main {
+  width: 800px;
+  margin: auto;
+  text-align: center;
+  font-family: tahoma;
+}
+
+.logo {
+  background-image: url('./webpack-logo.png');
+  width: 497px;
+  height: 270px;
+  margin: auto;
 }
