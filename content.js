@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import DefaultContent from './default-content';
 
-const mainView = `<div>Main</div>`;
-
 export default class Content extends Component {
   constructor() {
     super();
@@ -16,16 +14,13 @@ export default class Content extends Component {
   componentDidMount() {
     window.addEventListener('hashchange', (() => {
       const routes = {
-        '#main'() {
+        '#about'() {
           require.ensure(['./split-content'], ((require) => {
             const SplitContent = require('./split-content').default;
-            // this.setState({view: `foobar`});
-            this.setState({view: SplitContent });
+            this.setState({ view: SplitContent });
           }).bind(this));
         },
-        default: () => {
-          this.setState({view: DefaultContent });
-        }
+        default: this.setState.bind(this, { view: DefaultContent })
       };
       const action = routes[window.location.hash] || routes.default;
       action.call(this);
@@ -33,11 +28,8 @@ export default class Content extends Component {
   }
 
   render() {
-    // let inner = <SplitContent />;
     return (
-      <div>
-        {this.state.view === mainView ? this.state.view : <this.state.view />}
-      </div>
+      <this.state.view />
     );
   }
 }
