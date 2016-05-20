@@ -170,9 +170,17 @@ window.addEventListener('hashchange', function() {
   ...
 }
 ```
+* Now, to run the dev server, we can just type `$ npm start`
 
 ### Step 8 - Hot Module Replacement (HMR)
 * Add HMR support to split-content.js:
+```
+if(module.hot) {
+  module.hot.accept();
+}
+
+document.querySelector('#split-content').innerHTML = 'I was lazily loaded!';
+```
 * Update npm start script with "hot" flag:
 * package.json:
 ```
@@ -187,7 +195,7 @@ window.addEventListener('hashchange', function() {
 ```
 * `$ npm start`
 * Open http://localhost:8080 in a browser
-* Change split-content.js, watch HMR in action
+* Change split-content.js, watch HMR in action, changes should appear without a page reload
 
 ### Step 9 - Plugins
 * Add UglifyJS plugin to webpack.config.js:
@@ -296,6 +304,209 @@ module.exports = {
 
 ### Step 11 - React / JSX
 * `$ npm install --save-dev react-hot-loader babel-preset-react`
-* Change modules to React components
+* Create a new file, default-content.js, containing a simple React component:
+```
+'use strict';
+
+import React, { Component } from 'react';
+import './default-content.css';
+import {p1, p2, p3, p4} from './lorem-ipsum';
+
+export default class DefaultContent extends Component {
+  render() {
+    return (
+      <div>
+        <div className="logo"></div>
+        <h1>Webpack: Anatomy of a Module Bundler</h1>
+        <div className="ipsum">
+          <p>{p1}</p>
+          <p>{p2}</p>
+          <p>{p3}</p>
+          <p>{p4}</p>
+        </div>
+      </div>
+    );
+  }
+}
+```
+* Create a new file, default-content.css, and move the logo style there from style.css:
+```
+.logo {
+  background-image: url('./webpack-logo.png');
+  width: 497px;
+  height: 270px;
+  margin: auto;
+}
+```
+* Change split-content.js to a React component: 
+```
+'use strict';
+
+import React, { Component } from 'react';
+import './split-content.css';
+import {p1, p2} from './lorem-ipsum';
+
+export default class SplitContent extends Component {
+  render() {
+    return (
+      <div>
+        <h1>What is Webpack?</h1>
+        <div className="what-is" />
+        <div className="ipsum">
+          <p>{p1}</p>
+          <p>{p2}</p>
+        </div>
+      </div>
+    );
+  }
+}
+```
+* Create a new file, split-content.css:
+```
+.what-is {
+  background-image: url('./what-is-webpack.png');
+  width: 700px;
+  height: 350px;
+  margin: auto;
+}
+```
+* Change content.js to a React component:
+```
+'use strict';
+
+import React, { Component } from 'react';
+import DefaultContent from './default-content';
+
+export default class Content extends Component {
+  constructor() {
+    super();
+    this.state = {
+      view: DefaultContent
+    };
+  }
+
+  componentDidMount() {
+    window.addEventListener('hashchange', (() => {
+      const routes = {
+        '#about'() {
+          require.ensure(['./split-content'], ((require) => {
+            const SplitContent = require('./split-content').default;
+            this.setState({ view: SplitContent });
+          }).bind(this));
+        },
+        default: this.setState.bind(this, { view: DefaultContent })
+      };
+      const action = routes[window.location.hash] || routes.default;
+      action.call(this);
+    }).bind(this), false);
+  }
+
+  render() {
+    return (
+      <div id="main">
+        <a href="#">home</a> : <a href="#about">about</a>
+        <hr />
+        <this.state.view />
+      </div>
+    );
+  }
+}
+```
+* Update style.css:
+```
+body {
+  background: white;
+}
+
+#main {
+  width: 800px;
+  margin: auto;
+  text-align: center;
+  font-family: tahoma;
+}
+
+.ipsum {
+  text-align: left;
+}
+```
+* Create a new file, lorem-ipsum.js with placeholder text:
+```
+export const p1 = 'Lorem ipsum dolor sit amet, pretium sit lectus amet auctor eu, aenean dapibus egestas varius scelerisque praesent magna. Etiam massa tellus molestie mollis sem, aliquet etiam, auctor egestas dui quis ligula lobortis, in maecenas, eu lectus suscipit. Cupiditate dapibus malesuada lorem et, aliquet convallis lorem volutpat. Morbi imperdiet cras molestiae morbi mi, eu inceptos porttitor, massa vitae, arcu vel magnis, libero purus curabitur mi. Sapien sit bibendum fringilla.';
+export const p2 = 'Sapien suscipit purus ut pede, donec rutrum quis, in in ut aptent eget bibendum pede. Euismod molestie nam donec tincidunt lectus, mattis quam. Sed tellus. Tincidunt turpis odio diam vehicula lorem aliquam, fringilla et leo, vivamus suspendisse, elit massa auctor consequat massa. Rutrum eu id posuere velit varius, vitae lacus, odio luctus, sollicitudin aptent. Orci suspendisse integer semper, vestibulum laboris malesuada odio wisi urna, tincidunt mauris urna ipsum wisi.';
+export const p3 = 'Risus mattis. Ac condimentum. At vestibulum. Vulputate hendrerit lectus. Sed dignissim eget vestibulum placerat, rutrum tellus sit ac eget nulla turpis.';
+export const p4 = 'Nunc mauris tellus mauris a. Elementum adipiscing, dictum at metus integer deserunt eu, nulla non tempor et sem pede, nunc odio tellus vel, etiam odio donec condimentum semper. Vel odio metus conubia. Quam hymenaeos libero odio, sit fringilla, hendrerit scelerisque dignissim, enim lacus fusce turpis vel, wisi orci vivamus donec in. Donec congue pulvinar amet suspendisse consectetuer, pellentesque mauris id fermentum lacinia eleifend, id lacus. Nulla cras aliquam neque. Commodo sem tortor etiam sem augue. Massa orci libero justo vitae urna. Vivamus quis, vitae blandit turpis laoreet massa pede, aliquet enim. Viverra ipsum maecenas architecto tempus, euismod laoreet ullamcorper, proin libero integer. Diam dapibus pede, id tempor quis vel suscipit, sit etiam, consequat molestie vivamus placerat viverra viverra cum. Sagittis consequat per eleifend id posuere, laoreet lacus nisl.';
+```
+* Update entry.js to render the Content React component:
+```
+import './style.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Content from './content.js';
+
+document.write(`<div id="root"></div>`);
+
+ReactDOM.render(<Content />, document.getElementById('root'));
+```
+* Update the webpack config with the react-hot-loader and react babel presets:
+```
+var webpack = require('webpack');
+
+module.exports = {
+  entry: [
+    'webpack-dev-server/client?http://0.0.0.0:8080', // WebpackDevServer host and port
+    'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    './entry.js'
+  ],
+  output: {
+    path: __dirname,
+    filename: 'bundle.js'
+  },
+  devtool: '#source-map',
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
+  module: {
+    loaders: [
+      { test: /\.css$/, loader: 'style!css' },
+      { test: /\.png$/, loader: 'url' },
+      {
+        test: /\.js$/,
+        loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
+        exclude: /(node_modules)/
+      }
+    ]
+  }
+};
+```
+* Create a new file, server.js, with a Node API setup of webpack-dev-server:
+```
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var config = require('./webpack.config');
+
+new WebpackDevServer(webpack(config), {
+  publicPath: config.output.publicPath,
+  hot: true,
+  historyApiFallback: true
+}).listen(8080, 'localhost', function (err, result) {
+  if (err) {
+    console.log(err);
+  }
+  console.log('Listening at localhost:8080');
+});
+```
+* Lastly, update the npm start script:
+```
+{
+  "name": "webpack-tutorial",
+  ...
+  "scripts": {
+    "start": "node server.js"
+  },
+  ...
+}
+```
 * `$ npm start`
-* Demo React HMR support
+* Open http://localhost:8080 in a browser
+* Click on the "about" link and you should see the SplitContent component rendered
+* Try changing source files, and watch the react-hot-loader in action
