@@ -53,10 +53,45 @@ To see each step in action:
 * Open index.html in a browser
 
 ### Step 6 - Code splitting
+* Move the markup from content.js into index.html
+```
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+      <div id="main">
+        <a href="#">home</a> : <a href="#about">about</a>
+        <hr />
+        <div class="logo"></div>
+        <div id="split-content"></div>
+      </div>
+      <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+    </body>
+</html>
+
+```
 * Add split-content.js
-* Add window hash change event handler to content.js, including require.ensure()
+```
+document.querySelector('#split-content').innerHTML = 'I was lazily loaded!';
+```
+* Replace the code in content.js with window hash change event handler, that loads split-content.js lazily with require.ensure()
+```
+window.addEventListener('hashchange', function() {
+  var routes = {
+    '#about': function () {
+      require.ensure(['./split-content'], function (require) {
+        var lazyModule = require('./split-content');
+      });
+    },
+    default: function () {}
+  };
+  var action = routes[window.location.hash] || routes.default;
+  action();
+}, false);
+```
 * `$ webpack`
-* Show lazy-loading of split-content.js
+* Open index.html in a browser, click on "about" and you should see "I was lazily loaded!" appear under the webpack logo
 
 ### Step 7 - Webpack-dev-server
 * `$ npm install --save-dev webpack-dev-server`
