@@ -1,7 +1,13 @@
 # webpack-tutorial
-Tutorial for SBJS event: http://www.meetup.com/sbjavascript/events/229239289/
+Tutorial originally created for an [SBJS event](http://www.meetup.com/sbjavascript/events/229239289/)
 
-The tutorial will walk through webpack from the bare-bones basics through to a simple React component with Hot Module Replacement
+Corresponding slides are [here](https://docs.google.com/presentation/d/1qHeoAXfspiPh9236sGst7WfDH5dqTMvXsE0Kr_SLyeU/edit?usp=sharing)
+
+What is Webpack? Is it really automagical? Can it replace my build system? What the heck is a module bundler anyway?
+
+Webpack is arguably the most popular module bundling solution out there today. It's undeniably powerful, and does a lot right out of the box, but its configuration can be daunting and the available examples are often complex and unapproachable.
+
+This tutorial builds on the slide deck linked above and walks step-by-step from absolute webpack basics through to a simple React application with Hot Module Replacement
 
 ## Prerequisites
 * Node.js installed (preferably 5.x + npm 3.x)
