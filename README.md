@@ -7,7 +7,7 @@ What is Webpack? Is it really automagical? Can it replace my build system? What 
 
 Webpack is arguably the most popular module bundling solution out there today. It's undeniably powerful, and does a lot right out of the box, but its configuration can be daunting and the available examples are often complex and unapproachable.
 
-This tutorial builds on the slide deck linked above and walks step-by-step from absolute webpack basics through to a simple React application with Hot Module Replacement
+This tutorial builds on the slide deck linked above and walks step-by-step from absolute webpack basics through to a simple React application with Hot Module Replacement. It is in no way intended to be an all-encompassing demonstration of everything you can do with webpack. Rather, this tutorial is intended as a straightforward, incremental introduction to some of webpack's most important and widely used features including loaders, plugins, the webpack development server, and hot module replacement.
 
 ## Prerequisites
 * Node.js installed (preferably 5.x + npm 3.x)
@@ -45,7 +45,7 @@ To see each step in action:
 * `$ webpack ./entry bundle.js —module-bind ‘css=style!css'`
 * Open index.html in a browser
 
-### Step 5 - Inlining Images
+### Step 5 - Inlining Images + Config File
 * Url-loader: `$ npm install --save-dev url-loader`
 * Add background image to styles.css
 * Add webpack.config.js with loaders for .css and .png
@@ -56,6 +56,7 @@ To see each step in action:
 * Add split-content.js
 * Add window hash change event handler to content.js, including require.ensure()
 * `$ webpack`
+* Open index.html in a browser
 * Show lazy-loading of split-content.js
 
 ### Step 7 - Webpack-dev-server
