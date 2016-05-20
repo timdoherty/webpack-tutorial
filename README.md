@@ -20,22 +20,54 @@ To see each step in action:
 `$ npm install`
 
 ### Step 1 - The Basics
+* `$ mkdir webpack-tutorial && cd $_`
+* `$ npm init` - follow the prompts
 * `$ npm install --save-dev webpack`
-* Entry point only, (entry.js) no dependencies, no config, CLI bundling
+* Create an index.html file:
+```
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+    </body>
+</html>
+```
+* Create a new file, entry.js:
+```
+document.write('<a href="#">home</a> : <a href="#about">about</a>');
+```
 * `$ webpack /.entry bundle.js`
 * Open index.html in a browser
 
 ### Step 2 - Dependencies
-* Entry point plus one dependency, no config, CLI bundling
+* Create a new file, content.js:
+```
+module.exports = '<a href="#">home</a> : <a href="#about">about</a>';
+```
+* Update entry.js to require() content.js
+```
+document.write(require('./content.js'));
+```
 * `$ webpack /.entry bundle.js`
 * Open index.html in a browser
 
 ### Step 3 - Add a Loader
-* CSS loading: `$ npm install --save-dev style-loader css-loader`
-* Add styles.css
-* Import styles.css from entry.js using inline syntax
- * require("style!css!./style.css");
+* `$ npm install --save-dev style-loader css-loader`
+* Create a new file, style.css:
+```
+body {
+  background: silver;
+}
+```
+* Import styles.css from entry.js using inline syntax:
+```
+require('style!css!./style.css');
+document.write(require('./content.js'));
+```
 * `$ webpack /.entry bundle.js`
+* The "style" and "css" loaders will load your styles into the bundle and inject them into the HTML document as style tags
 * Open index.html in a browser
 
 ### Step 4 - Loader Module Binding
@@ -71,11 +103,16 @@ To see each step in action:
 </html>
 
 ```
+* Remove the document.write statement from entry.js and just require() content.js
+```
+require('./style.css');
+require('./content.js');
+```
 * Add split-content.js
 ```
 document.querySelector('#split-content').innerHTML = 'I was lazily loaded!';
 ```
-* Replace the code in content.js with window hash change event handler, that loads split-content.js lazily with require.ensure()
+* Replace the code in content.js with window hash change event handler, which loads split-content.js lazily with require.ensure()
 ```
 window.addEventListener('hashchange', function() {
   var routes = {
