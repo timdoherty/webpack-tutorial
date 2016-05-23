@@ -1,9 +1,17 @@
+import {p1, p2} from './lorem-ipsum';
+import './split-content.css';
+
 if(module.hot) {
   module.hot.accept();
 }
 
-document.querySelector('#split-content').innerHTML = 'I was lazily loaded!';
-
-// document.body.appendChild(document.createElement('hr'));
-
-// alert('foo');
+export const render = () => {
+  document.querySelector('#content').innerHTML = `
+    <h1>What is Webpack?</h1>
+    <div class="what-is"></div>
+    <div class="ipsum">
+      <p>${p1}</p>
+      <p>${p2}</p>
+    </div>
+  `;
+};
