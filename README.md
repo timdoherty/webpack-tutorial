@@ -99,6 +99,7 @@ body {
   margin: auto;
 }
 ```
+* Download the webpack logo: [https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/webpack-logo.png](https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/webpack-logo.png)
 * Add webpack.config.js with loaders for .css and .png files:
 ```
 module.exports = {
