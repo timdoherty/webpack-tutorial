@@ -231,22 +231,53 @@ module.exports = {
 
 ### Step 10 - ES2015
 * `$ npm install --save-dev babel-core babel-loader babel-preset-es2015`
+* Create a new file, lorem-ipsum.js with placeholder text:
+```
+export const p1 = 'Lorem ipsum dolor sit amet, pretium sit lectus amet auctor eu, aenean dapibus egestas varius scelerisque praesent magna. Etiam massa tellus molestie mollis sem, aliquet etiam, auctor egestas dui quis ligula lobortis, in maecenas, eu lectus suscipit. Cupiditate dapibus malesuada lorem et, aliquet convallis lorem volutpat. Morbi imperdiet cras molestiae morbi mi, eu inceptos porttitor, massa vitae, arcu vel magnis, libero purus curabitur mi. Sapien sit bibendum fringilla.';
+export const p2 = 'Sapien suscipit purus ut pede, donec rutrum quis, in in ut aptent eget bibendum pede. Euismod molestie nam donec tincidunt lectus, mattis quam. Sed tellus. Tincidunt turpis odio diam vehicula lorem aliquam, fringilla et leo, vivamus suspendisse, elit massa auctor consequat massa. Rutrum eu id posuere velit varius, vitae lacus, odio luctus, sollicitudin aptent. Orci suspendisse integer semper, vestibulum laboris malesuada odio wisi urna, tincidunt mauris urna ipsum wisi.';
+export const p3 = 'Risus mattis. Ac condimentum. At vestibulum. Vulputate hendrerit lectus. Sed dignissim eget vestibulum placerat, rutrum tellus sit ac eget nulla turpis.';
+export const p4 = 'Nunc mauris tellus mauris a. Elementum adipiscing, dictum at metus integer deserunt eu, nulla non tempor et sem pede, nunc odio tellus vel, etiam odio donec condimentum semper. Vel odio metus conubia. Quam hymenaeos libero odio, sit fringilla, hendrerit scelerisque dignissim, enim lacus fusce turpis vel, wisi orci vivamus donec in. Donec congue pulvinar amet suspendisse consectetuer, pellentesque mauris id fermentum lacinia eleifend, id lacus. Nulla cras aliquam neque. Commodo sem tortor etiam sem augue. Massa orci libero justo vitae urna. Vivamus quis, vitae blandit turpis laoreet massa pede, aliquet enim. Viverra ipsum maecenas architecto tempus, euismod laoreet ullamcorper, proin libero integer. Diam dapibus pede, id tempor quis vel suscipit, sit etiam, consequat molestie vivamus placerat viverra viverra cum. Sagittis consequat per eleifend id posuere, laoreet lacus nisl.';
+```
+* Create a new file, split-content.css:
+```
+.what-is {
+  background-image: url('./what-is-webpack.png');
+  width: 700px;
+  height: 350px;
+  margin: auto;
+}
+```
+* Download the "what is wepback image": [https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/what-is-webpack.png](https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/what-is-webpack.png)
 * Update modules with ES2015 syntax
-* entry.js:
+* Update entry.js with with ES2015 syntax:
 ```
 import './style.css';
 import './content.js';
 ```
-* content.js:
+* Update content.js with ES2015 syntax and additional content:
 ```
+import {p1, p2, p3, p4} from './lorem-ipsum';
+
 'use strict';
+
+const content = `
+  <div class="logo"></div>
+  <h1>Webpack: Anatomy of a Module Bundler</h1>
+  <div class="ipsum">
+    <p>${p1}</p>
+    <p>${p2}</p>
+    <p>${p3}</p>
+    <p>${p4}</p>
+  </div>
+`;
 
 document.write(`
   <div id="main">
     <a href="#">home</a> : <a href="#about">about</a>
     <hr />
-    <div class="logo"></div>
-    <div id="split-content"></div>
+    <div id="content">
+      ${content}
+    </div>
   </div>
 `);
 
@@ -254,14 +285,58 @@ window.addEventListener('hashchange', () => {
   const routes = {
     '#about'() {
       require.ensure(['./split-content'], (require) => {
-        const lazyModule = require('./split-content');
+        require('./split-content');
       });
     },
-    default: () => {}
+    default: () => {
+      document.querySelector('#content').innerHTML = content;
+    }
   };
   const action = routes[window.location.hash] || routes.default;
   action();
 }, false);
+```
+* Update split-content.js with ES2015 syntax and additional content:
+```
+import {p1, p2} from './lorem-ipsum';
+import './split-content.css';
+
+if(module.hot) {
+  module.hot.accept();
+}
+
+document.querySelector('#content').innerHTML = `
+  <h1>What is Webpack?</h1>
+  <div class="what-is"></div>
+  <div class="ipsum">
+    <p>${p1}</p>
+    <p>${p2}</p>
+  </div>
+`;
+```
+* Update style.css with additional content:
+```
+body {
+  background: white;
+}
+
+#main {
+  width: 800px;
+  margin: auto;
+  text-align: center;
+  font-family: tahoma;
+}
+
+.logo {
+  background-image: url('./webpack-logo.png');
+  width: 497px;
+  height: 270px;
+  margin: auto;
+}
+
+.ipsum {
+  text-align: left;
+}
 ```
 * Update webpack config:
 ```
@@ -361,15 +436,6 @@ export default class SplitContent extends Component {
   }
 }
 ```
-* Create a new file, split-content.css:
-```
-.what-is {
-  background-image: url('./what-is-webpack.png');
-  width: 700px;
-  height: 350px;
-  margin: auto;
-}
-```
 * Change content.js to a React component:
 ```
 'use strict';
@@ -428,13 +494,6 @@ body {
 .ipsum {
   text-align: left;
 }
-```
-* Create a new file, lorem-ipsum.js with placeholder text:
-```
-export const p1 = 'Lorem ipsum dolor sit amet, pretium sit lectus amet auctor eu, aenean dapibus egestas varius scelerisque praesent magna. Etiam massa tellus molestie mollis sem, aliquet etiam, auctor egestas dui quis ligula lobortis, in maecenas, eu lectus suscipit. Cupiditate dapibus malesuada lorem et, aliquet convallis lorem volutpat. Morbi imperdiet cras molestiae morbi mi, eu inceptos porttitor, massa vitae, arcu vel magnis, libero purus curabitur mi. Sapien sit bibendum fringilla.';
-export const p2 = 'Sapien suscipit purus ut pede, donec rutrum quis, in in ut aptent eget bibendum pede. Euismod molestie nam donec tincidunt lectus, mattis quam. Sed tellus. Tincidunt turpis odio diam vehicula lorem aliquam, fringilla et leo, vivamus suspendisse, elit massa auctor consequat massa. Rutrum eu id posuere velit varius, vitae lacus, odio luctus, sollicitudin aptent. Orci suspendisse integer semper, vestibulum laboris malesuada odio wisi urna, tincidunt mauris urna ipsum wisi.';
-export const p3 = 'Risus mattis. Ac condimentum. At vestibulum. Vulputate hendrerit lectus. Sed dignissim eget vestibulum placerat, rutrum tellus sit ac eget nulla turpis.';
-export const p4 = 'Nunc mauris tellus mauris a. Elementum adipiscing, dictum at metus integer deserunt eu, nulla non tempor et sem pede, nunc odio tellus vel, etiam odio donec condimentum semper. Vel odio metus conubia. Quam hymenaeos libero odio, sit fringilla, hendrerit scelerisque dignissim, enim lacus fusce turpis vel, wisi orci vivamus donec in. Donec congue pulvinar amet suspendisse consectetuer, pellentesque mauris id fermentum lacinia eleifend, id lacus. Nulla cras aliquam neque. Commodo sem tortor etiam sem augue. Massa orci libero justo vitae urna. Vivamus quis, vitae blandit turpis laoreet massa pede, aliquet enim. Viverra ipsum maecenas architecto tempus, euismod laoreet ullamcorper, proin libero integer. Diam dapibus pede, id tempor quis vel suscipit, sit etiam, consequat molestie vivamus placerat viverra viverra cum. Sagittis consequat per eleifend id posuere, laoreet lacus nisl.';
 ```
 * Update entry.js to render the Content React component:
 ```
