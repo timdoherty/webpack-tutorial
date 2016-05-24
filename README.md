@@ -249,7 +249,6 @@ export const p4 = 'Nunc mauris tellus mauris a. Elementum adipiscing, dictum at 
 }
 ```
 * Download the "what is wepback image": [https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/what-is-webpack.png](https://raw.githubusercontent.com/tdoherty/webpack-tutorial/master/what-is-webpack.png)
-* Update modules with ES2015 syntax
 * Update entry.js with with ES2015 syntax:
 ```
 import './style.css';
@@ -286,7 +285,7 @@ window.addEventListener('hashchange', () => {
   const routes = {
     '#about'() {
       require.ensure(['./split-content'], (require) => {
-        require('./split-content');
+        require('./split-content').render();
       });
     },
     default: () => {
@@ -306,14 +305,16 @@ if(module.hot) {
   module.hot.accept();
 }
 
-document.querySelector('#content').innerHTML = `
-  <h1>What is Webpack?</h1>
-  <div class="what-is"></div>
-  <div class="ipsum">
-    <p>${p1}</p>
-    <p>${p2}</p>
-  </div>
-`;
+export const render = () => {
+  document.querySelector('#content').innerHTML = `
+    <h1>What is Webpack?</h1>
+    <div class="what-is"></div>
+    <div class="ipsum">
+      <p>${p1}</p>
+      <p>${p2}</p>
+    </div>
+  `;
+};
 ```
 * Update style.css with additional content:
 ```
