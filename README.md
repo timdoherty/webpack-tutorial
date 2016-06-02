@@ -3,6 +3,8 @@ Tutorial originally created for an [SBJS event](http://www.meetup.com/sbjavascri
 
 Corresponding slides are [here](https://docs.google.com/presentation/d/1qHeoAXfspiPh9236sGst7WfDH5dqTMvXsE0Kr_SLyeU/edit?usp=sharing)
 
+Video from the SBJS event [here](https://www.youtube.com/watch?v=Br6zy8G6rP4)
+
 What is Webpack? Is it really automagical? Can it replace my build system? What the heck is a module bundler anyway?
 
 Webpack is arguably the most popular module bundling solution out there today. It's undeniably powerful, and does a lot right out of the box, but its configuration can be daunting and the available examples are often complex and unapproachable.
